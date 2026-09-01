@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Statement {
+  id                String   @id @default(cuid())
+  statementNumber   String   @unique @map("statement_number") // Invoice No.
+  invoiceDate       DateTime @default(now()) @map("invoice_date")
+  financialYear     String   @default("2026 - 2027") @map("financial_year")
+  
+  // Customer Details
+  customerName      String   @default("") @map("customer_name")
+  customerAddress   String   @default("") @map("customer_address")
+  customerGstin     String?  @map("customer_gstin")
+
+  // Company Details (Static defaults)
+  industryName      String   @default("WESTERN INDUSTRIES") @map("industry_name")
+  vendorName        String   @default("TVS") @map("vendor_name")
+  vendorCode        String   @default("32210") @map("vendor_code")
+  companyGstin      String   @default("29ABCDE1234F1ZH") @map("company_gstin")
+  companyPan        String   @default("ABCDE1234F") @map("company_pan")
+  companyAddress    String   @default("Plot No 42, Western Industrial Estate, Phase 2, Industrial City - 560001") @map("company_address")
+  companyPhone      String   @default("+91 98765 43210") @map("company_phone")
+  companyEmail      String   @default("info@westernindustries.in") @map("company_email")
+
+  // Financial Totals
+  totalTaxableValue Decimal  @default(0) @map("total_taxable_value")
+  cgstAmount        Decimal  @default(0) @map("cgst_amount")
+  sgstAmount        Decimal  @default(0) @map("sgst_amount")
+  grandTotal        Decimal  @default(0) @map("grand_total")
+  amountInWords     String   @default("") @map("amount_in_words")
+
+  // Legacy compatibility fields
+  month             Int      @default(9)
+  year              Int      @default(2026)
+  status            String   @default("saved")
+  pdfUrl            String?  @map("pdf_url")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  items             StatementItem[]
+
+  @@index([financialYear])
+  @@index([customerName])
+  @@index([statementNumber])
+  @@map("statements")
+}
+
+model StatementItem {
+  id           String    @id @default(cuid())
+  statementId  String    @map("statement_id")
+  serialNumber Int       @default(1) @map("serial_number")
+  
+  // Tax Invoice Item Fields
+  description  String    @default("") @map("description")
+  hsnSac       String?   @map("hsn_sac")
+  details      String?   @map("details")
+  amount       Decimal   @default(0) @map("amount")
+
+  // Legacy fields (optional)
+  daNumber     String?   @map("da_number")
+  entryDate    DateTime  @default(now()) @map("entry_date")
+  partNumber   String    @default("") @map("part_number")
+  despatches   String?   @map("despatches")
+  openingStock Decimal   @default(0) @map("opening_stock")
+  closingStock Decimal   @default(0) @map("closing_stock")
+
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  statement    Statement @relation(fields: [statementId], references: [id], onDelete: Cascade)
+
+  @@index([statementId])
+  @@map("statement_items")
+}
