@@ -11,12 +11,21 @@ import { convertAmountToWords } from '@/lib/numberToWords';
 import styles from './StatementForm.module.css';
 
 const FINANCIAL_YEARS = [
+  '2022 - 2023',
+  '2023 - 2024',
   '2024 - 2025',
   '2025 - 2026',
   '2026 - 2027',
   '2027 - 2028',
-  '2028 - 2029',
 ];
+
+// Permanent Fixed Customer Details as requested
+export const DEFAULT_CUSTOMER = {
+  name: 'M/s. SUNDRAM FASTENERS Ltd.,',
+  address: 'Krishnapuram, Aviyur - 620 160. Kariapatti Taluk, Virudhunagar District.',
+  gstin: '33AAACS8779D1Z7',
+  pan: 'AAACS8779D',
+};
 
 interface StatementFormProps {
   initialData?: Statement;
@@ -39,18 +48,12 @@ export function StatementForm({ initialData, isEditing = false }: StatementFormP
     initialData?.financialYear || '2026 - 2027'
   );
 
-  // Customer Details
-  const [customerName, setCustomerName] = useState<string>(
-    initialData?.customerName || ''
-  );
-  const [customerAddress, setCustomerAddress] = useState<string>(
-    initialData?.customerAddress || ''
-  );
-  const [customerGstin, setCustomerGstin] = useState<string>(
-    initialData?.customerGstin || ''
-  );
+  // Permanent Customer Details (Read-only for workers)
+  const customerName = initialData?.customerName || DEFAULT_CUSTOMER.name;
+  const customerAddress = initialData?.customerAddress || DEFAULT_CUSTOMER.address;
+  const customerGstin = initialData?.customerGstin || DEFAULT_CUSTOMER.gstin;
 
-  // Dynamic Item Table (Initialized with 1 default item row)
+  // Dynamic Item Table (Pre-filled with Labour Charges default if new entry)
   const [items, setItems] = useState<StatementItemInput[]>(
     initialData?.items && initialData.items.length > 0
       ? initialData.items.map((it) => ({
@@ -63,9 +66,9 @@ export function StatementForm({ initialData, isEditing = false }: StatementFormP
       : [
           {
             sNo: 1,
-            description: '',
-            hsnSac: '',
-            details: '',
+            description: 'Labour Charges',
+            hsnSac: '998898',
+            details: 'Refer Annexure',
             amount: 0,
           },
         ]
@@ -98,14 +101,6 @@ export function StatementForm({ initialData, isEditing = false }: StatementFormP
   const validate = (): boolean => {
     if (!statementNumber.trim()) {
       setToast({ message: 'Invoice Number is required.', type: 'error' });
-      return false;
-    }
-    if (!customerName.trim()) {
-      setToast({ message: 'Customer Name is required.', type: 'error' });
-      return false;
-    }
-    if (!customerAddress.trim()) {
-      setToast({ message: 'Customer Address is required.', type: 'error' });
       return false;
     }
 
@@ -150,9 +145,9 @@ export function StatementForm({ initialData, isEditing = false }: StatementFormP
       statementNumber: statementNumber.trim(),
       invoiceDate,
       financialYear,
-      customerName: customerName.trim(),
-      customerAddress: customerAddress.trim(),
-      customerGstin: customerGstin.trim() || undefined,
+      customerName,
+      customerAddress,
+      customerGstin,
       totalTaxableValue,
       cgstAmount,
       sgstAmount,
@@ -283,12 +278,13 @@ export function StatementForm({ initialData, isEditing = false }: StatementFormP
               src="/logo.jpg"
               alt="Western Industries Logo"
               style={{
-                width: '30px',
-                height: '30px',
+                width: '32px',
+                height: '32px',
                 objectFit: 'contain',
                 borderRadius: '4px',
                 backgroundColor: '#ffffff',
                 padding: '2px',
+                border: '1px solid #cbd5e1',
               }}
             />
             <h2 className={styles.sectionTitle}>NEW TAX INVOICE</h2>
@@ -347,54 +343,43 @@ export function StatementForm({ initialData, isEditing = false }: StatementFormP
         </div>
       </div>
 
-      {/* 2. Customer Details */}
+      {/* 2. Customer Details (PERMANENT / FIXED FOR SUNDRAM FASTENERS LTD.) */}
       <div className={styles.sectionCard}>
         <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>CUSTOMER DETAILS</h2>
-          <span className={styles.sectionBadge}>INVOICEE</span>
+          <h2 className={styles.sectionTitle}>INVOICE TO & PLACE OF SUPPLY</h2>
+          <span className={styles.sectionBadge} style={{ backgroundColor: '#800000', color: '#ffffff', padding: '2px 8px', borderRadius: '4px' }}>
+            PERMANENT CUSTOMER
+          </span>
         </div>
 
         <div className={styles.grid}>
           <div className={styles.fieldGroup} style={{ gridColumn: 'span 2' }}>
-            <label className={styles.label}>Customer / Invoicee Name *</label>
+            <label className={styles.label}>Customer / Invoicee Name</label>
             <input
               type="text"
               value={customerName}
-              onChange={(e) => {
-                setCustomerName(e.target.value);
-                setIsDirty(true);
-              }}
-              placeholder="e.g. Acme Industrial Solutions Pvt Ltd"
-              className={styles.input}
+              readOnly
+              className={`${styles.input} ${styles.readOnlyInput}`}
             />
           </div>
 
           <div className={styles.fieldGroup}>
-            <label className={styles.label}>Customer GSTIN</label>
+            <label className={styles.label}>GSTIN & PAN</label>
             <input
               type="text"
-              value={customerGstin}
-              onChange={(e) => {
-                setCustomerGstin(e.target.value.toUpperCase());
-                setIsDirty(true);
-              }}
-              placeholder="e.g. 29AAAAA0000A1Z5"
-              className={styles.input}
+              value={`GSTIN: ${DEFAULT_CUSTOMER.gstin}  PAN: ${DEFAULT_CUSTOMER.pan}`}
+              readOnly
+              className={`${styles.input} ${styles.readOnlyInput}`}
             />
           </div>
 
           <div className={styles.fieldGroup} style={{ gridColumn: 'span 3' }}>
-            <label className={styles.label}>Customer Address *</label>
-            <textarea
+            <label className={styles.label}>Customer Address</label>
+            <input
+              type="text"
               value={customerAddress}
-              onChange={(e) => {
-                setCustomerAddress(e.target.value);
-                setIsDirty(true);
-              }}
-              placeholder="Enter complete customer address..."
-              rows={2}
-              className={styles.input}
-              style={{ resize: 'vertical' }}
+              readOnly
+              className={`${styles.input} ${styles.readOnlyInput}`}
             />
           </div>
         </div>
@@ -403,7 +388,7 @@ export function StatementForm({ initialData, isEditing = false }: StatementFormP
       {/* 3. Services / Item Details Dynamic Table */}
       <div className={styles.sectionCard}>
         <div className={styles.sectionHeader}>
-          <h2 className={styles.sectionTitle}>SERVICES / ITEM DETAILS</h2>
+          <h2 className={styles.sectionTitle}>DESCRIPTION OF SERVICES</h2>
           <span className={styles.sectionBadge}>DYNAMIC TABLE</span>
         </div>
 
@@ -430,11 +415,11 @@ export function StatementForm({ initialData, isEditing = false }: StatementFormP
             <strong>₹ {totalTaxableValue.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong>
           </div>
           <div className={styles.calcRow}>
-            <span>CGST @ 4%</span>
+            <span>Add CGST @ 4%</span>
             <strong>₹ {cgstAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong>
           </div>
           <div className={styles.calcRow}>
-            <span>SGST @ 4%</span>
+            <span>Add SGST @ 4%</span>
             <strong>₹ {sgstAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong>
           </div>
           <div className={`${styles.calcRow} ${styles.grandTotalRow}`}>
@@ -443,7 +428,7 @@ export function StatementForm({ initialData, isEditing = false }: StatementFormP
           </div>
 
           <div className={styles.wordsBox}>
-            <span className={styles.wordsLabel}>Amount in Words:</span>
+            <span className={styles.wordsLabel}>Indian Rupees (Amount in Words):</span>
             <div className={styles.wordsText}>{amountInWords}</div>
           </div>
         </div>

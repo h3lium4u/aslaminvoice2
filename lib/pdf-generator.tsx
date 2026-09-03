@@ -7,288 +7,329 @@ Font.registerHyphenationCallback((word) => [word]);
 
 const logoPath = path.join(process.cwd(), 'public', 'logo.jpg');
 
+const MAROON = '#800000';
+const BORDER_COLOR = '#800000';
+
 const styles = StyleSheet.create({
   page: {
     fontFamily: 'Helvetica',
     fontSize: 9,
-    paddingTop: 25,
-    paddingBottom: 40,
-    paddingHorizontal: 30,
+    paddingTop: 20,
+    paddingBottom: 30,
+    paddingHorizontal: 25,
     backgroundColor: '#FFFFFF',
   },
-  // Company Header
-  header: {
+
+  // Outer Bill Frame
+  billFrame: {
+    borderWidth: 1.5,
+    borderColor: BORDER_COLOR,
+    height: '100%',
+    padding: 10,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+  },
+
+  // 1. Top Bar (GSTIN / PAN / TAX INVOICE / VENDOR CODE)
+  topBar: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 4,
   },
-  headerLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
-  },
-  logo: {
-    width: 44,
-    height: 44,
-    borderRadius: 4,
-  },
-  companyName: {
-    fontSize: 16,
+  topText: {
+    fontSize: 7.5,
     fontFamily: 'Helvetica-Bold',
-    color: '#0f172a',
+    color: MAROON,
+  },
+  taxInvoiceTitle: {
+    fontSize: 10,
+    fontFamily: 'Helvetica-Bold',
+    color: MAROON,
+    borderWidth: 1,
+    borderColor: MAROON,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
     letterSpacing: 1,
   },
-  companySubtext: {
-    fontSize: 8,
-    color: '#475569',
-    marginTop: 2,
+
+  // 2. Company Header
+  companyHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 6,
+    borderBottomWidth: 1,
+    borderBottomColor: BORDER_COLOR,
+    paddingBottom: 6,
   },
-  headerRight: {
-    alignItems: 'flex-end',
+  logo: {
+    width: 48,
+    height: 48,
+    marginRight: 10,
   },
-  invoiceTitle: {
-    fontSize: 16,
+  headerCenter: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  companyTitle: {
+    fontSize: 18,
     fontFamily: 'Helvetica-Bold',
-    color: '#059669',
+    color: MAROON,
     letterSpacing: 1.5,
   },
-  invoiceBadge: {
-    fontSize: 8,
+  isoText: {
+    fontSize: 7.5,
     fontFamily: 'Helvetica-Bold',
-    color: '#334155',
-    marginTop: 4,
+    color: '#333333',
+    marginBottom: 2,
   },
-  headerDivider: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#059669',
-    marginBottom: 12,
+  addressText: {
+    fontSize: 7,
+    color: '#333333',
+    textAlign: 'center',
+    lineHeight: 1.2,
+  },
+  cellText: {
+    fontSize: 7.5,
+    fontFamily: 'Helvetica-Bold',
+    color: MAROON,
+    textAlign: 'right',
   },
 
-  // Info Cards (Customer + Invoice details)
-  infoContainer: {
+  // 3. Customer & Invoice Info Grid
+  infoGrid: {
     flexDirection: 'row',
-    gap: 12,
-    marginBottom: 12,
-  },
-  customerBox: {
-    flex: 1.2,
     borderWidth: 1,
-    borderColor: '#cbd5e1',
-    borderRadius: 4,
-    padding: 8,
-    backgroundColor: '#f8fafc',
-  },
-  invoiceBox: {
-    flex: 0.8,
-    borderWidth: 1,
-    borderColor: '#cbd5e1',
-    borderRadius: 4,
-    padding: 8,
-    backgroundColor: '#f8fafc',
-  },
-  boxTitle: {
-    fontSize: 8,
-    fontFamily: 'Helvetica-Bold',
-    color: '#0f172a',
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#cbd5e1',
-    paddingBottom: 4,
+    borderColor: BORDER_COLOR,
     marginBottom: 6,
   },
-  fieldRow: {
-    flexDirection: 'row',
+  customerBox: {
+    flex: 1.3,
+    padding: 6,
+    borderRightWidth: 1,
+    borderRightColor: BORDER_COLOR,
+  },
+  infoBoxTitle: {
+    fontSize: 7.5,
+    fontFamily: 'Helvetica-Bold',
+    color: MAROON,
+    textTransform: 'uppercase',
     marginBottom: 3,
   },
-  fieldLabel: {
-    width: 90,
-    fontSize: 8,
-    color: '#64748b',
+  customerName: {
+    fontSize: 10,
     fontFamily: 'Helvetica-Bold',
+    color: '#000000',
+    marginBottom: 2,
   },
-  fieldValue: {
-    flex: 1,
-    fontSize: 8.5,
-    color: '#0f172a',
+  customerText: {
+    fontSize: 8,
+    color: '#222222',
+    lineHeight: 1.25,
+  },
+  customerGstin: {
+    fontSize: 7.5,
+    fontFamily: 'Helvetica-Bold',
+    color: MAROON,
+    marginTop: 3,
   },
 
-  // Dynamic Item Table
+  invoiceMetaBox: {
+    flex: 0.7,
+    flexDirection: 'column',
+  },
+  metaTopRow: {
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderBottomColor: BORDER_COLOR,
+  },
+  metaHalf: {
+    flex: 1,
+    padding: 4,
+  },
+  metaHalfRight: {
+    borderLeftWidth: 1,
+    borderLeftColor: BORDER_COLOR,
+  },
+  metaLabel: {
+    fontSize: 7,
+    fontFamily: 'Helvetica-Bold',
+    color: MAROON,
+  },
+  metaVal: {
+    fontSize: 8.5,
+    fontFamily: 'Helvetica-Bold',
+    color: '#000000',
+    marginTop: 1,
+  },
+  fyRow: {
+    padding: 6,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  fyVal: {
+    fontSize: 10,
+    fontFamily: 'Helvetica-Bold',
+    color: MAROON,
+  },
+
+  // 4. Description of Services Table
   table: {
     width: '100%',
-    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: BORDER_COLOR,
+    marginBottom: 6,
+    flex: 1,
   },
   tableHeader: {
     flexDirection: 'row',
-    backgroundColor: '#0f172a',
-    paddingVertical: 6,
-    paddingHorizontal: 6,
-    borderRadius: 2,
+    backgroundColor: '#fff0f0',
+    borderBottomWidth: 1,
+    borderBottomColor: BORDER_COLOR,
+    paddingVertical: 5,
+    paddingHorizontal: 4,
   },
-  tableHeaderText: {
-    color: '#FFFFFF',
-    fontSize: 8,
+  thText: {
+    fontSize: 7.5,
     fontFamily: 'Helvetica-Bold',
+    color: MAROON,
     textTransform: 'uppercase',
-    letterSpacing: 0.3,
   },
   tableRow: {
     flexDirection: 'row',
     borderBottomWidth: 0.5,
-    borderBottomColor: '#e2e8f0',
+    borderBottomColor: '#dddddd',
     paddingVertical: 6,
-    paddingHorizontal: 6,
-  },
-  tableRowAlt: {
-    backgroundColor: '#f8fafc',
+    paddingHorizontal: 4,
   },
   tableCell: {
     fontSize: 8.5,
-    color: '#1e293b',
+    color: '#111111',
   },
 
-  colSno: { width: '8%', textAlign: 'center' },
-  colDesc: { width: '38%' },
-  colHsn: { width: '16%' },
-  colDetails: { width: '22%' },
-  colAmount: { width: '16%', textAlign: 'right' },
+  colSlNo: { width: '8%', textAlign: 'center' },
+  colDesc: { width: '42%' },
+  colHsn: { width: '18%' },
+  colDetails: { width: '18%' },
+  colAmount: { width: '14%', textAlign: 'right' },
 
-  // Tax & Totals Section
-  summaryContainer: {
+  // 5. Calculations Block
+  calcTable: {
+    borderWidth: 1,
+    borderColor: BORDER_COLOR,
+    marginBottom: 6,
+  },
+  calcRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: 16,
-    gap: 12,
+    borderBottomWidth: 0.5,
+    borderBottomColor: BORDER_COLOR,
+    paddingVertical: 3.5,
+    paddingHorizontal: 8,
   },
-  wordsContainer: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: '#cbd5e1',
-    borderRadius: 4,
-    padding: 8,
-    backgroundColor: '#f8fafc',
-  },
-  wordsTitle: {
-    fontSize: 7.5,
+  calcLabel: {
+    fontSize: 8,
     fontFamily: 'Helvetica-Bold',
-    color: '#64748b',
-    textTransform: 'uppercase',
-    marginBottom: 4,
+    color: '#222222',
   },
-  wordsText: {
-    fontSize: 9,
-    fontFamily: 'Helvetica-Bold',
-    color: '#0f172a',
-    lineHeight: 1.3,
-  },
-
-  totalsContainer: {
-    width: 220,
-    borderWidth: 1,
-    borderColor: '#cbd5e1',
-    borderRadius: 4,
-    padding: 8,
-    backgroundColor: '#ffffff',
-  },
-  totalRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: 3,
-  },
-  totalLabel: {
-    fontSize: 8.5,
-    color: '#475569',
-  },
-  totalValue: {
+  calcVal: {
     fontSize: 8.5,
     fontFamily: 'Helvetica-Bold',
-    color: '#0f172a',
+    color: '#000000',
   },
   grandTotalRow: {
-    borderTopWidth: 1,
-    borderTopColor: '#059669',
-    paddingTop: 5,
-    marginTop: 4,
+    backgroundColor: '#fff0f0',
+    borderBottomWidth: 0,
+    paddingVertical: 5,
   },
   grandTotalLabel: {
     fontSize: 9.5,
     fontFamily: 'Helvetica-Bold',
-    color: '#0f172a',
+    color: MAROON,
   },
-  grandTotalValue: {
-    fontSize: 10.5,
+  grandTotalVal: {
+    fontSize: 10,
     fontFamily: 'Helvetica-Bold',
-    color: '#059669',
+    color: MAROON,
   },
 
-  // Declaration & Signatory Section
-  footerSection: {
+  // 6. Words & E&OE Row
+  wordsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    borderTopWidth: 0.5,
-    borderTopColor: '#cbd5e1',
-    paddingTop: 8,
-    marginTop: 'auto',
+    borderWidth: 1,
+    borderColor: BORDER_COLOR,
+    padding: 6,
+    marginBottom: 6,
+    backgroundColor: '#fafafa',
   },
-  declarationBox: {
-    width: '60%',
-  },
-  declarationTitle: {
+  wordsLabel: {
     fontSize: 7.5,
     fontFamily: 'Helvetica-Bold',
-    color: '#475569',
-    marginBottom: 2,
+    color: MAROON,
+    fontStyle: 'italic',
   },
-  declarationText: {
-    fontSize: 7,
-    color: '#64748b',
-    lineHeight: 1.3,
+  wordsVal: {
+    fontSize: 8.5,
+    fontFamily: 'Helvetica-Bold',
+    color: '#111111',
+    marginTop: 1,
   },
-  signatoryBox: {
-    width: '35%',
-    alignItems: 'flex-end',
-  },
-  signatoryCompany: {
+  eoeText: {
     fontSize: 8,
     fontFamily: 'Helvetica-Bold',
-    color: '#0f172a',
-    marginBottom: 28,
-  },
-  signatoryLine: {
-    fontSize: 8,
-    fontFamily: 'Helvetica-Bold',
-    color: '#334155',
-    borderTopWidth: 0.5,
-    borderTopColor: '#475569',
-    paddingTop: 2,
-    textAlign: 'center',
-    width: 140,
+    color: MAROON,
+    fontStyle: 'italic',
   },
 
-  // Page numbering footer
-  pageFooter: {
-    position: 'absolute',
-    bottom: 15,
-    left: 30,
-    right: 30,
+  // 7. Footer Declaration & Signatory
+  footerGrid: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    borderTopWidth: 0.5,
-    borderTopColor: '#e2e8f0',
-    paddingTop: 4,
+    borderWidth: 1,
+    borderColor: BORDER_COLOR,
   },
-  pageFooterText: {
+  declBox: {
+    flex: 1.2,
+    padding: 6,
+    borderRightWidth: 1,
+    borderRightColor: BORDER_COLOR,
+  },
+  declTitle: {
+    fontSize: 7.5,
+    fontFamily: 'Helvetica-Bold',
+    color: MAROON,
+    textDecoration: 'underline',
+    marginBottom: 2,
+  },
+  declText: {
     fontSize: 7,
-    color: '#94a3b8',
+    color: '#333333',
+    lineHeight: 1.2,
+    fontStyle: 'italic',
+  },
+  sigBox: {
+    flex: 0.8,
+    padding: 6,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  sigFor: {
+    fontSize: 8,
+    fontFamily: 'Helvetica-Bold',
+    color: MAROON,
+  },
+  sigTitle: {
+    fontSize: 8,
+    fontFamily: 'Helvetica-Bold',
+    color: '#222222',
+    marginTop: 22,
   },
 });
 
 function formatCurrency(num: number | undefined | null): string {
   const val = Number(num) || 0;
-  return `₹ ${val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  return `${val.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 function formatDate(dateStr?: string | Date): string {
@@ -313,143 +354,134 @@ export function StockStatementDocument({ statement }: PDFDocumentProps) {
   return (
     <Document title={`${statement.statementNumber} - Tax Invoice`}>
       <Page size="A4" style={styles.page}>
-        {/* Company Header */}
-        <View style={styles.header}>
-          <View style={styles.headerLeft}>
+        <View style={styles.billFrame}>
+          {/* 1. Top Bar */}
+          <View style={styles.topBar}>
+            <Text style={styles.topText}>
+              GSTIN : 33DJUPS7410G2ZT   PAN : DJUPS7410G
+            </Text>
+            <Text style={styles.taxInvoiceTitle}>TAX INVOICE</Text>
+            <Text style={styles.topText}>VENDOR CODE : 32210</Text>
+          </View>
+
+          {/* 2. Company Header */}
+          <View style={styles.companyHeader}>
             <Image src={logoPath} style={styles.logo} />
+            <View style={styles.headerCenter}>
+              <Text style={styles.companyTitle}>WESTERN INDUSTRIES</Text>
+              <Text style={styles.isoText}>(An ISO 9001 : 2015 Certified Company)</Text>
+              <Text style={styles.addressText}>
+                86/3, Opp. Ponnusamy Chettiar Thottam, KARIAPATTI - 626 106. Kariapatti Taluk, Virudhunagar District.
+              </Text>
+              <Text style={styles.addressText}>
+                e-mail : westernindustries1973@gmail.com
+              </Text>
+            </View>
             <View>
-              <Text style={styles.companyName}>{statement.industryName || 'WESTERN INDUSTRIES'}</Text>
-              <Text style={styles.companySubtext}>
-                {statement.companyAddress || 'Plot No 42, Western Industrial Estate, Phase 2, City - 560001'}
+              <Text style={styles.cellText}>Cell :</Text>
+              <Text style={styles.cellText}>90921 37558</Text>
+            </View>
+          </View>
+
+          {/* 3. Customer & Invoice Metadata Info Box */}
+          <View style={styles.infoGrid}>
+            <View style={styles.customerBox}>
+              <Text style={styles.infoBoxTitle}>Invoice to & Place of Supply</Text>
+              <Text style={styles.customerName}>
+                {statement.customerName || 'M/s. SUNDRAM FASTENERS Ltd.,'}
               </Text>
-              <Text style={styles.companySubtext}>
-                GSTIN: {statement.companyGstin || '29ABCDE1234F1ZH'} | PAN: {statement.companyPan || 'ABCDE1234F'} | Code: {statement.vendorCode || '32210'}
+              <Text style={styles.customerText}>
+                {statement.customerAddress || 'Krishnapuram, Aviyur - 620 160. Kariapatti Taluk, Virudhunagar District.'}
               </Text>
-              <Text style={styles.companySubtext}>
-                Ph: {statement.companyPhone || '+91 98765 43210'} | Email: {statement.companyEmail || 'info@westernindustries.in'}
+              <Text style={styles.customerGstin}>
+                GSTIN : {statement.customerGstin || '33AAACS8779D1Z7'}  PAN : AAACS8779D
               </Text>
             </View>
-          </View>
-          <View style={styles.headerRight}>
-            <Text style={styles.invoiceTitle}>TAX INVOICE</Text>
-            <Text style={styles.invoiceBadge}>FY: {statement.financialYear || '2026 - 2027'}</Text>
-          </View>
-        </View>
 
-        <View style={styles.headerDivider} />
-
-        {/* Customer & Invoice Details Cards */}
-        <View style={styles.infoContainer}>
-          <View style={styles.customerBox}>
-            <Text style={styles.boxTitle}>Customer / Invoicee Details</Text>
-            <View style={styles.fieldRow}>
-              <Text style={styles.fieldLabel}>Name:</Text>
-              <Text style={styles.fieldValue}>{statement.customerName || 'N/A'}</Text>
-            </View>
-            <View style={styles.fieldRow}>
-              <Text style={styles.fieldLabel}>Address:</Text>
-              <Text style={styles.fieldValue}>{statement.customerAddress || 'N/A'}</Text>
-            </View>
-            <View style={styles.fieldRow}>
-              <Text style={styles.fieldLabel}>Customer GSTIN:</Text>
-              <Text style={styles.fieldValue}>{statement.customerGstin || 'URP / Not Provided'}</Text>
+            <View style={styles.invoiceMetaBox}>
+              <View style={styles.metaTopRow}>
+                <View style={styles.metaHalf}>
+                  <Text style={styles.metaLabel}>INVOICE No.</Text>
+                  <Text style={styles.metaVal}>{statement.statementNumber}</Text>
+                </View>
+                <View style={[styles.metaHalf, styles.metaHalfRight]}>
+                  <Text style={styles.metaLabel}>Date</Text>
+                  <Text style={styles.metaVal}>{formatDate(statement.invoiceDate || statement.createdAt)}</Text>
+                </View>
+              </View>
+              <View style={styles.fyRow}>
+                <Text style={styles.metaLabel}>PERIOD / FY</Text>
+                <Text style={styles.fyVal}>{statement.financialYear || '2026 - 2027'}</Text>
+              </View>
             </View>
           </View>
 
-          <View style={styles.invoiceBox}>
-            <Text style={styles.boxTitle}>Invoice Metadata</Text>
-            <View style={styles.fieldRow}>
-              <Text style={styles.fieldLabel}>Invoice No.:</Text>
-              <Text style={[styles.fieldValue, { fontFamily: 'Helvetica-Bold' }]}>{statement.statementNumber}</Text>
+          {/* 4. Description of Services Table */}
+          <View style={styles.table}>
+            <View style={styles.tableHeader}>
+              <Text style={[styles.thText, styles.colSlNo]}>Sl. No.</Text>
+              <Text style={[styles.thText, styles.colDesc]}>Description of Services</Text>
+              <Text style={[styles.thText, styles.colHsn]}>HSN / SAC CODE</Text>
+              <Text style={[styles.thText, styles.colDetails]}>Details</Text>
+              <Text style={[styles.thText, styles.colAmount]}>Amount (Rs.)</Text>
             </View>
-            <View style={styles.fieldRow}>
-              <Text style={styles.fieldLabel}>Invoice Date:</Text>
-              <Text style={styles.fieldValue}>{formatDate(statement.invoiceDate || statement.createdAt)}</Text>
-            </View>
-            <View style={styles.fieldRow}>
-              <Text style={styles.fieldLabel}>Financial Year:</Text>
-              <Text style={styles.fieldValue}>{statement.financialYear || '2026 - 2027'}</Text>
-            </View>
-          </View>
-        </View>
 
-        {/* Dynamic Item Table */}
-        <View style={styles.table}>
-          <View style={styles.tableHeader}>
-            <Text style={[styles.tableHeaderText, styles.colSno]}>S.No</Text>
-            <Text style={[styles.tableHeaderText, styles.colDesc]}>Description</Text>
-            <Text style={[styles.tableHeaderText, styles.colHsn]}>HSN/SAC</Text>
-            <Text style={[styles.tableHeaderText, styles.colDetails]}>Details</Text>
-            <Text style={[styles.tableHeaderText, styles.colAmount]}>Amount (₹)</Text>
+            {items.map((item, idx) => (
+              <View key={item.id || idx} style={styles.tableRow}>
+                <Text style={[styles.tableCell, styles.colSlNo]}>
+                  {String(item.serialNumber || idx + 1).padStart(2, '0')}.
+                </Text>
+                <Text style={[styles.tableCell, styles.colDesc]}>{item.description || 'Labour Charges'}</Text>
+                <Text style={[styles.tableCell, styles.colHsn]}>{item.hsnSac || '998898'}</Text>
+                <Text style={[styles.tableCell, styles.colDetails]}>{item.details || 'Refer Annexure'}</Text>
+                <Text style={[styles.tableCell, styles.colAmount]}>{formatCurrency(item.amount)}</Text>
+              </View>
+            ))}
           </View>
 
-          {items.map((item, idx) => (
-            <View
-              key={item.id || idx}
-              style={[styles.tableRow, idx % 2 === 1 ? styles.tableRowAlt : {}]}
-            >
-              <Text style={[styles.tableCell, styles.colSno]}>{item.serialNumber || idx + 1}</Text>
-              <Text style={[styles.tableCell, styles.colDesc]}>{item.description || '—'}</Text>
-              <Text style={[styles.tableCell, styles.colHsn]}>{item.hsnSac || '—'}</Text>
-              <Text style={[styles.tableCell, styles.colDetails]}>{item.details || '—'}</Text>
-              <Text style={[styles.tableCell, styles.colAmount]}>{formatCurrency(item.amount)}</Text>
+          {/* 5. Calculations Block */}
+          <View style={styles.calcTable}>
+            <View style={styles.calcRow}>
+              <Text style={styles.calcLabel}>Total Taxable Value</Text>
+              <Text style={styles.calcVal}>{formatCurrency(totalTaxable)}</Text>
             </View>
-          ))}
-        </View>
-
-        {/* Summary (Amount in words + Tax totals - 8% Total GST) */}
-        <View style={styles.summaryContainer}>
-          <View style={styles.wordsContainer}>
-            <Text style={styles.wordsTitle}>Amount in Words:</Text>
-            <Text style={styles.wordsText}>{wordsText}</Text>
-          </View>
-
-          <View style={styles.totalsContainer}>
-            <View style={styles.totalRow}>
-              <Text style={styles.totalLabel}>Total Taxable Value:</Text>
-              <Text style={styles.totalValue}>{formatCurrency(totalTaxable)}</Text>
+            <View style={styles.calcRow}>
+              <Text style={styles.calcLabel}>Add CGST @ 4%</Text>
+              <Text style={styles.calcVal}>{formatCurrency(cgst)}</Text>
             </View>
-            <View style={styles.totalRow}>
-              <Text style={styles.totalLabel}>CGST @ 4%:</Text>
-              <Text style={styles.totalValue}>{formatCurrency(cgst)}</Text>
+            <View style={styles.calcRow}>
+              <Text style={styles.calcLabel}>Add SGST @ 4%</Text>
+              <Text style={styles.calcVal}>{formatCurrency(sgst)}</Text>
             </View>
-            <View style={styles.totalRow}>
-              <Text style={styles.totalLabel}>SGST @ 4%:</Text>
-              <Text style={styles.totalValue}>{formatCurrency(sgst)}</Text>
-            </View>
-
-            <View style={[styles.totalRow, styles.grandTotalRow]}>
-              <Text style={styles.grandTotalLabel}>Grand Total:</Text>
-              <Text style={styles.grandTotalValue}>{formatCurrency(grandTotal)}</Text>
+            <View style={[styles.calcRow, styles.grandTotalRow]}>
+              <Text style={styles.grandTotalLabel}>Grand Total</Text>
+              <Text style={styles.grandTotalVal}>Rs. {formatCurrency(grandTotal)}</Text>
             </View>
           </View>
-        </View>
 
-        {/* Declaration & Signatory Footer */}
-        <View style={styles.footerSection}>
-          <View style={styles.declarationBox}>
-            <Text style={styles.declarationTitle}>Declaration & Terms:</Text>
-            <Text style={styles.declarationText}>
-              We declare that this tax invoice shows the actual price of the services/goods described and that all particulars are true and correct.
-            </Text>
-            <Text style={[styles.declarationText, { marginTop: 4, fontFamily: 'Helvetica-Bold' }]}>
-              E & O.E. (Errors and Omissions Excepted)
-            </Text>
+          {/* 6. Words & E&OE Row */}
+          <View style={styles.wordsRow}>
+            <View>
+              <Text style={styles.wordsLabel}>Indian Rupees</Text>
+              <Text style={styles.wordsVal}>{wordsText}</Text>
+            </View>
+            <Text style={styles.eoeText}>E & O.E.</Text>
           </View>
 
-          <View style={styles.signatoryBox}>
-            <Text style={styles.signatoryCompany}>For WESTERN INDUSTRIES</Text>
-            <Text style={styles.signatoryLine}>Authorised Signatory</Text>
-          </View>
-        </View>
+          {/* 7. Footer Declaration & Signatory */}
+          <View style={styles.footerGrid}>
+            <View style={styles.declBox}>
+              <Text style={styles.declTitle}>Declaration</Text>
+              <Text style={styles.declText}>
+                We declare that this Invoice shows the actual price of the goods described and that all particulars are true and correct
+              </Text>
+            </View>
 
-        {/* Page Footer */}
-        <View style={styles.pageFooter} fixed>
-          <Text style={styles.pageFooterText}>WESTERN INDUSTRIES — Tax Invoice System</Text>
-          <Text
-            style={styles.pageFooterText}
-            render={({ pageNumber, totalPages }) => `Page ${pageNumber} of ${totalPages}`}
-          />
+            <View style={styles.sigBox}>
+              <Text style={styles.sigFor}>For WESTERN INDUSTRIES</Text>
+              <Text style={styles.sigTitle}>Authorised Signatory</Text>
+            </View>
+          </View>
         </View>
       </Page>
     </Document>
