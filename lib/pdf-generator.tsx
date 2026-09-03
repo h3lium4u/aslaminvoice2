@@ -431,9 +431,9 @@ export function StockStatementDocument({ statement }: PDFDocumentProps) {
                 <Text style={[styles.tableCell, styles.colSlNo]}>
                   {String(item.serialNumber || idx + 1).padStart(2, '0')}.
                 </Text>
-                <Text style={[styles.tableCell, styles.colDesc]}>{item.description || 'Labour Charges'}</Text>
-                <Text style={[styles.tableCell, styles.colHsn]}>{item.hsnSac || '998898'}</Text>
-                <Text style={[styles.tableCell, styles.colDetails]}>{item.details || 'Refer Annexure'}</Text>
+                <Text style={[styles.tableCell, styles.colDesc]}>{item.description || '—'}</Text>
+                <Text style={[styles.tableCell, styles.colHsn]}>{item.hsnSac || '—'}</Text>
+                <Text style={[styles.tableCell, styles.colDetails]}>{item.details || '—'}</Text>
                 <Text style={[styles.tableCell, styles.colAmount]}>{formatCurrency(item.amount)}</Text>
               </View>
             ))}

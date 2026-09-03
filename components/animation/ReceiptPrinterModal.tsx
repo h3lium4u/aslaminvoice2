@@ -71,7 +71,7 @@ export function ReceiptPrinterModal({
 
   const items = statementData?.items || [];
   const taxableTotal = items.reduce((acc, it) => acc + (Number(it.amount) || 0), 0);
-  const grandTotal = statementData?.grandTotal || Math.round((taxableTotal * 1.08) * 100) / 100;
+  const grandTotal = statementData?.grandTotal || Math.round((taxableTotal * 1.18) * 100) / 100;
 
   return (
     <div className={styles.overlay} onClick={onClose}>
@@ -151,16 +151,16 @@ export function ReceiptPrinterModal({
                   {items.length === 0 ? (
                     <div className={styles.receiptItemRow}>
                       <span style={{ width: '12%' }}>01.</span>
-                      <span style={{ width: '48%' }}>Labour Charges</span>
-                      <span style={{ width: '20%' }}>998898</span>
+                      <span style={{ width: '48%' }}>—</span>
+                      <span style={{ width: '20%' }}>—</span>
                       <span style={{ width: '20%', textAlign: 'right' }}>₹0.00</span>
                     </div>
                   ) : (
                     items.map((item, idx) => (
                       <div key={idx} className={styles.receiptItemRow}>
                         <span style={{ width: '12%' }}>{String(idx + 1).padStart(2, '0')}.</span>
-                        <span style={{ width: '48%' }}>{item.description || 'Labour Charges'}</span>
-                        <span style={{ width: '20%' }}>{item.hsnSac || '998898'}</span>
+                        <span style={{ width: '48%' }}>{item.description || '—'}</span>
+                        <span style={{ width: '20%' }}>{item.hsnSac || '—'}</span>
                         <span style={{ width: '20%', textAlign: 'right' }}>₹{Number(item.amount || 0).toFixed(2)}</span>
                       </div>
                     ))

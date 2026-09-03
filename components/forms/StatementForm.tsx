@@ -53,7 +53,7 @@ export function StatementForm({ initialData, isEditing = false }: StatementFormP
   const customerAddress = initialData?.customerAddress || DEFAULT_CUSTOMER.address;
   const customerGstin = initialData?.customerGstin || DEFAULT_CUSTOMER.gstin;
 
-  // Dynamic Item Table (Pre-filled with Labour Charges default if new entry)
+  // Dynamic Item Table (Initialized completely empty for row 1)
   const [items, setItems] = useState<StatementItemInput[]>(
     initialData?.items && initialData.items.length > 0
       ? initialData.items.map((it) => ({
@@ -66,9 +66,9 @@ export function StatementForm({ initialData, isEditing = false }: StatementFormP
       : [
           {
             sNo: 1,
-            description: 'Labour Charges',
-            hsnSac: '998898',
-            details: 'Refer Annexure',
+            description: '',
+            hsnSac: '',
+            details: '',
             amount: 0,
           },
         ]
