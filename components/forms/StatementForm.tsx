@@ -80,10 +80,10 @@ export function StatementForm({ initialData, isEditing = false }: StatementFormP
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
   const [isDirty, setIsDirty] = useState(false);
 
-  // Auto-calculated Tax & Total values (8% Total GST = 4% CGST + 4% SGST)
+  // Auto-calculated Tax & Total values (18% Total GST = 9% CGST + 9% SGST)
   const totalTaxableValue = items.reduce((acc, item) => acc + (Number(item.amount) || 0), 0);
-  const cgstAmount = Math.round(totalTaxableValue * 0.04 * 100) / 100;
-  const sgstAmount = Math.round(totalTaxableValue * 0.04 * 100) / 100;
+  const cgstAmount = Math.round(totalTaxableValue * 0.09 * 100) / 100;
+  const sgstAmount = Math.round(totalTaxableValue * 0.09 * 100) / 100;
   const grandTotal = Math.round((totalTaxableValue + cgstAmount + sgstAmount) * 100) / 100;
   const amountInWords = convertAmountToWords(grandTotal);
 
@@ -273,23 +273,25 @@ export function StatementForm({ initialData, isEditing = false }: StatementFormP
       {/* 1. Header Information */}
       <div className={styles.sectionCard}>
         <div className={styles.sectionHeader}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <img
-              src="/logo.jpg"
+              src="/logo.png"
               alt="Western Industries Logo"
               style={{
-                width: '32px',
-                height: '32px',
+                width: '36px',
+                height: '36px',
                 objectFit: 'contain',
                 borderRadius: '4px',
                 backgroundColor: '#ffffff',
-                padding: '2px',
-                border: '1px solid #cbd5e1',
               }}
             />
-            <h2 className={styles.sectionTitle}>NEW TAX INVOICE</h2>
+            <h2 className={styles.sectionTitle} style={{ color: '#1e40af', fontSize: '18px' }}>
+              WESTERN INDUSTRIES — NEW TAX INVOICE
+            </h2>
           </div>
-          <span className={styles.sectionBadge}>INVOICE DETAILS</span>
+          <span className={styles.sectionBadge} style={{ backgroundColor: '#1e40af', color: '#ffffff', padding: '3px 10px', borderRadius: '4px' }}>
+            INVOICE DETAILS
+          </span>
         </div>
 
         <div className={styles.grid}>
@@ -347,7 +349,7 @@ export function StatementForm({ initialData, isEditing = false }: StatementFormP
       <div className={styles.sectionCard}>
         <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>INVOICE TO & PLACE OF SUPPLY</h2>
-          <span className={styles.sectionBadge} style={{ backgroundColor: '#800000', color: '#ffffff', padding: '2px 8px', borderRadius: '4px' }}>
+          <span className={styles.sectionBadge} style={{ backgroundColor: '#1e40af', color: '#ffffff', padding: '3px 10px', borderRadius: '4px' }}>
             PERMANENT CUSTOMER
           </span>
         </div>
@@ -402,11 +404,11 @@ export function StatementForm({ initialData, isEditing = false }: StatementFormP
         />
       </div>
 
-      {/* 4. Automatically Calculated Tax & Total Box (8% Total GST) */}
+      {/* 4. Automatically Calculated Tax & Total Box (18% Total GST = 9% CGST + 9% SGST) */}
       <div className={styles.sectionCard}>
         <div className={styles.sectionHeader}>
           <h2 className={styles.sectionTitle}>TAX & AMOUNT CALCULATIONS</h2>
-          <span className={styles.sectionBadge}>AUTO CALCULATED (8% GST)</span>
+          <span className={styles.sectionBadge}>AUTO CALCULATED (18% GST)</span>
         </div>
 
         <div className={styles.calculationsContainer}>
@@ -415,16 +417,16 @@ export function StatementForm({ initialData, isEditing = false }: StatementFormP
             <strong>₹ {totalTaxableValue.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong>
           </div>
           <div className={styles.calcRow}>
-            <span>Add CGST @ 4%</span>
+            <span>Add CGST @ 9%</span>
             <strong>₹ {cgstAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong>
           </div>
           <div className={styles.calcRow}>
-            <span>Add SGST @ 4%</span>
+            <span>Add SGST @ 9%</span>
             <strong>₹ {sgstAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong>
           </div>
           <div className={`${styles.calcRow} ${styles.grandTotalRow}`}>
             <span>Grand Total</span>
-            <strong>₹ {grandTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong>
+            <strong style={{ color: '#1e40af' }}>₹ {grandTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong>
           </div>
 
           <div className={styles.wordsBox}>
@@ -458,6 +460,7 @@ export function StatementForm({ initialData, isEditing = false }: StatementFormP
             onClick={handleSaveAndPdf}
             disabled={isSubmitting || isDownloadingPdf}
             className={styles.savePdfBtn}
+            style={{ backgroundColor: '#1e40af', borderColor: '#1e40af' }}
           >
             {isDownloadingPdf ? 'Generating PDF...' : 'Save & Download PDF'}
           </button>

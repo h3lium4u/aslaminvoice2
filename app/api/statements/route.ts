@@ -97,10 +97,10 @@ export async function POST(request: NextRequest) {
     const finalInvoiceNumber = statementNumber || `INV-${Date.now().toString().slice(-6)}`;
     const parsedInvoiceDate = invoiceDate ? new Date(invoiceDate) : new Date();
 
-    // 8% Total GST (4% CGST + 4% SGST)
+    // 18% Total GST (9% CGST + 9% SGST)
     const totalTaxableValue = items.reduce((acc, item) => acc + (Number(item.amount) || 0), 0);
-    const cgstAmount = Math.round(totalTaxableValue * 0.04 * 100) / 100;
-    const sgstAmount = Math.round(totalTaxableValue * 0.04 * 100) / 100;
+    const cgstAmount = Math.round(totalTaxableValue * 0.09 * 100) / 100;
+    const sgstAmount = Math.round(totalTaxableValue * 0.09 * 100) / 100;
     const grandTotal = Math.round((totalTaxableValue + cgstAmount + sgstAmount) * 100) / 100;
 
     const statement = await prisma.statement.create({

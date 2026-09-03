@@ -5,10 +5,10 @@ import { convertAmountToWords } from '@/lib/numberToWords';
 
 Font.registerHyphenationCallback((word) => [word]);
 
-const logoPath = path.join(process.cwd(), 'public', 'logo.jpg');
+const logoPath = path.join(process.cwd(), 'public', 'logo.png');
 
-const MAROON = '#800000';
-const BORDER_COLOR = '#800000';
+const ROYAL_BLUE = '#1e40af';
+const BORDER_COLOR = '#1e40af';
 
 const styles = StyleSheet.create({
   page: {
@@ -40,17 +40,17 @@ const styles = StyleSheet.create({
   topText: {
     fontSize: 7.5,
     fontFamily: 'Helvetica-Bold',
-    color: MAROON,
+    color: ROYAL_BLUE,
   },
   taxInvoiceTitle: {
     fontSize: 10,
     fontFamily: 'Helvetica-Bold',
-    color: MAROON,
-    borderWidth: 1,
-    borderColor: MAROON,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
+    color: '#FFFFFF',
+    backgroundColor: ROYAL_BLUE,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
     letterSpacing: 1,
+    borderRadius: 2,
   },
 
   // 2. Company Header
@@ -63,36 +63,36 @@ const styles = StyleSheet.create({
     paddingBottom: 6,
   },
   logo: {
-    width: 48,
-    height: 48,
-    marginRight: 10,
+    width: 52,
+    height: 52,
+    marginRight: 12,
   },
   headerCenter: {
     flex: 1,
     alignItems: 'center',
   },
   companyTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: 'Helvetica-Bold',
-    color: MAROON,
+    color: ROYAL_BLUE,
     letterSpacing: 1.5,
   },
   isoText: {
     fontSize: 7.5,
     fontFamily: 'Helvetica-Bold',
-    color: '#333333',
+    color: '#334155',
     marginBottom: 2,
   },
   addressText: {
     fontSize: 7,
-    color: '#333333',
+    color: '#334155',
     textAlign: 'center',
     lineHeight: 1.2,
   },
   cellText: {
     fontSize: 7.5,
     fontFamily: 'Helvetica-Bold',
-    color: MAROON,
+    color: ROYAL_BLUE,
     textAlign: 'right',
   },
 
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
   infoBoxTitle: {
     fontSize: 7.5,
     fontFamily: 'Helvetica-Bold',
-    color: MAROON,
+    color: ROYAL_BLUE,
     textTransform: 'uppercase',
     marginBottom: 3,
   },
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
   customerGstin: {
     fontSize: 7.5,
     fontFamily: 'Helvetica-Bold',
-    color: MAROON,
+    color: ROYAL_BLUE,
     marginTop: 3,
   },
 
@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
   metaLabel: {
     fontSize: 7,
     fontFamily: 'Helvetica-Bold',
-    color: MAROON,
+    color: ROYAL_BLUE,
   },
   metaVal: {
     fontSize: 8.5,
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   fyVal: {
     fontSize: 10,
     fontFamily: 'Helvetica-Bold',
-    color: MAROON,
+    color: ROYAL_BLUE,
   },
 
   // 4. Description of Services Table
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   },
   tableHeader: {
     flexDirection: 'row',
-    backgroundColor: '#fff0f0',
+    backgroundColor: '#eff6ff',
     borderBottomWidth: 1,
     borderBottomColor: BORDER_COLOR,
     paddingVertical: 5,
@@ -193,13 +193,13 @@ const styles = StyleSheet.create({
   thText: {
     fontSize: 7.5,
     fontFamily: 'Helvetica-Bold',
-    color: MAROON,
+    color: ROYAL_BLUE,
     textTransform: 'uppercase',
   },
   tableRow: {
     flexDirection: 'row',
     borderBottomWidth: 0.5,
-    borderBottomColor: '#dddddd',
+    borderBottomColor: '#cbd5e1',
     paddingVertical: 6,
     paddingHorizontal: 4,
   },
@@ -239,19 +239,19 @@ const styles = StyleSheet.create({
     color: '#000000',
   },
   grandTotalRow: {
-    backgroundColor: '#fff0f0',
+    backgroundColor: '#eff6ff',
     borderBottomWidth: 0,
     paddingVertical: 5,
   },
   grandTotalLabel: {
     fontSize: 9.5,
     fontFamily: 'Helvetica-Bold',
-    color: MAROON,
+    color: ROYAL_BLUE,
   },
   grandTotalVal: {
     fontSize: 10,
     fontFamily: 'Helvetica-Bold',
-    color: MAROON,
+    color: ROYAL_BLUE,
   },
 
   // 6. Words & E&OE Row
@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
   wordsLabel: {
     fontSize: 7.5,
     fontFamily: 'Helvetica-Bold',
-    color: MAROON,
+    color: ROYAL_BLUE,
     fontStyle: 'italic',
   },
   wordsVal: {
@@ -279,7 +279,7 @@ const styles = StyleSheet.create({
   eoeText: {
     fontSize: 8,
     fontFamily: 'Helvetica-Bold',
-    color: MAROON,
+    color: ROYAL_BLUE,
     fontStyle: 'italic',
   },
 
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
   declTitle: {
     fontSize: 7.5,
     fontFamily: 'Helvetica-Bold',
-    color: MAROON,
+    color: ROYAL_BLUE,
     textDecoration: 'underline',
     marginBottom: 2,
   },
@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
   sigFor: {
     fontSize: 8,
     fontFamily: 'Helvetica-Bold',
-    color: MAROON,
+    color: ROYAL_BLUE,
   },
   sigTitle: {
     fontSize: 8,
@@ -346,8 +346,8 @@ interface PDFDocumentProps {
 export function StockStatementDocument({ statement }: PDFDocumentProps) {
   const items = statement.items || [];
   const totalTaxable = statement.totalTaxableValue || items.reduce((acc, it) => acc + (Number(it.amount) || 0), 0);
-  const cgst = statement.cgstAmount || Math.round(totalTaxable * 0.04 * 100) / 100;
-  const sgst = statement.sgstAmount || Math.round(totalTaxable * 0.04 * 100) / 100;
+  const cgst = statement.cgstAmount || Math.round(totalTaxable * 0.09 * 100) / 100;
+  const sgst = statement.sgstAmount || Math.round(totalTaxable * 0.09 * 100) / 100;
   const grandTotal = statement.grandTotal || Math.round((totalTaxable + cgst + sgst) * 100) / 100;
   const wordsText = statement.amountInWords || convertAmountToWords(grandTotal);
 
@@ -439,18 +439,18 @@ export function StockStatementDocument({ statement }: PDFDocumentProps) {
             ))}
           </View>
 
-          {/* 5. Calculations Block */}
+          {/* 5. Calculations Block (18% Total GST = 9% CGST + 9% SGST) */}
           <View style={styles.calcTable}>
             <View style={styles.calcRow}>
               <Text style={styles.calcLabel}>Total Taxable Value</Text>
               <Text style={styles.calcVal}>{formatCurrency(totalTaxable)}</Text>
             </View>
             <View style={styles.calcRow}>
-              <Text style={styles.calcLabel}>Add CGST @ 4%</Text>
+              <Text style={styles.calcLabel}>Add CGST @ 9%</Text>
               <Text style={styles.calcVal}>{formatCurrency(cgst)}</Text>
             </View>
             <View style={styles.calcRow}>
-              <Text style={styles.calcLabel}>Add SGST @ 4%</Text>
+              <Text style={styles.calcLabel}>Add SGST @ 9%</Text>
               <Text style={styles.calcVal}>{formatCurrency(sgst)}</Text>
             </View>
             <View style={[styles.calcRow, styles.grandTotalRow]}>

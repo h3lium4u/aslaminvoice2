@@ -98,10 +98,10 @@ export default function ViewRecordPage({
   if (loading) return <div style={{ padding: 32 }}><LoadingState message="Loading tax invoice..." /></div>;
   if (error || !statement) return <div style={{ padding: 32 }}><ErrorState message={error || 'Tax invoice not found'} /></div>;
 
-  // 8% Total GST (4% CGST + 4% SGST)
+  // 18% Total GST (9% CGST + 9% SGST)
   const totalTaxable = statement.totalTaxableValue || statement.items.reduce((acc, it) => acc + Number(it.amount || 0), 0);
-  const cgst = statement.cgstAmount || Math.round(totalTaxable * 0.04 * 100) / 100;
-  const sgst = statement.sgstAmount || Math.round(totalTaxable * 0.04 * 100) / 100;
+  const cgst = statement.cgstAmount || Math.round(totalTaxable * 0.09 * 100) / 100;
+  const sgst = statement.sgstAmount || Math.round(totalTaxable * 0.09 * 100) / 100;
   const grandTotal = statement.grandTotal || Math.round((totalTaxable + cgst + sgst) * 100) / 100;
   const amountWords = statement.amountInWords || convertAmountToWords(grandTotal);
 
@@ -122,7 +122,7 @@ export default function ViewRecordPage({
         </Link>
 
         <div className={styles.actionButtons}>
-          <button onClick={handleDownloadPdf} className={styles.pdfBtn}>
+          <button onClick={handleDownloadPdf} className={styles.pdfBtn} style={{ backgroundColor: '#1e40af' }}>
             Download PDF
           </button>
           <Link href={`/records/${id}/edit`} className={styles.editBtn}>
@@ -139,24 +139,24 @@ export default function ViewRecordPage({
         {/* Document Header */}
         <div className={styles.docHeader}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <img src="/logo.jpg" alt="Logo" style={{ width: 40, height: 40, objectFit: 'contain', borderRadius: 4 }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+              <img src="/logo.png" alt="Logo" style={{ width: 48, height: 48, objectFit: 'contain' }} />
               <div>
-                <div className={styles.companyTitle}>{statement.industryName || 'WESTERN INDUSTRIES'}</div>
+                <div className={styles.companyTitle} style={{ color: '#1e40af' }}>WESTERN INDUSTRIES</div>
                 <div style={{ fontSize: 12, color: 'var(--text-secondary)' }}>
-                  {statement.companyAddress || 'Plot No 42, Western Industrial Estate, Phase 2, City - 560001'}
+                  86/3, Opp. Ponnusamy Chettiar Thottam, KARIAPATTI - 626 106. Kariapatti Taluk, Virudhunagar District.
                 </div>
                 <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>
-                  GSTIN: {statement.companyGstin || '29ABCDE1234F1ZH'} | PAN: {statement.companyPan || 'ABCDE1234F'} | Vendor Code: {statement.vendorCode || '32210'}
+                  GSTIN: 33DJUPS7410G2ZT | PAN: DJUPS7410G | Vendor Code: 32210
                 </div>
               </div>
             </div>
             <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--accent-green)', letterSpacing: 1 }}>TAX INVOICE</div>
+              <div style={{ fontSize: 20, fontWeight: 800, color: '#1e40af', letterSpacing: 1 }}>TAX INVOICE</div>
               <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)' }}>FY: {statement.financialYear || '2026 - 2027'}</div>
             </div>
           </div>
-          <div className={styles.headerLine} />
+          <div className={styles.headerLine} style={{ backgroundColor: '#1e40af', marginTop: 12 }} />
         </div>
 
         {/* Metadata & Customer Grid */}
@@ -171,11 +171,11 @@ export default function ViewRecordPage({
           </div>
           <div className={styles.metaBox}>
             <span className={styles.metaLabel}>Customer Name</span>
-            <span className={styles.metaValue}>{statement.customerName || 'N/A'}</span>
+            <span className={styles.metaValue}>{statement.customerName || 'M/s. SUNDRAM FASTENERS Ltd.,'}</span>
           </div>
           <div className={styles.metaBox}>
             <span className={styles.metaLabel}>Customer GSTIN</span>
-            <span className={styles.metaValue}>{statement.customerGstin || 'URP / Not Provided'}</span>
+            <span className={styles.metaValue}>{statement.customerGstin || '33AAACS8779D1Z7'}</span>
           </div>
         </div>
 
@@ -191,21 +191,21 @@ export default function ViewRecordPage({
         <div className={styles.tableWrapper}>
           <table className={styles.table}>
             <thead>
-              <tr>
-                <th style={{ width: '60px', textAlign: 'center' }}>S.No.</th>
-                <th>Description</th>
-                <th style={{ width: '140px' }}>HSN/SAC Code</th>
-                <th>Details</th>
-                <th style={{ textAlign: 'right', width: '160px' }}>Amount (₹)</th>
+              <tr style={{ backgroundColor: '#1e40af' }}>
+                <th style={{ width: '60px', textAlign: 'center', backgroundColor: '#1e40af' }}>S.No.</th>
+                <th style={{ backgroundColor: '#1e40af' }}>Description</th>
+                <th style={{ width: '140px', backgroundColor: '#1e40af' }}>HSN/SAC Code</th>
+                <th style={{ backgroundColor: '#1e40af' }}>Details</th>
+                <th style={{ textAlign: 'right', width: '160px', backgroundColor: '#1e40af' }}>Amount (₹)</th>
               </tr>
             </thead>
             <tbody>
               {statement.items.map((item, idx) => (
                 <tr key={item.id || idx} className={styles.row}>
                   <td className={styles.sNoCell}>{item.serialNumber || idx + 1}</td>
-                  <td>{item.description || '—'}</td>
-                  <td>{item.hsnSac || '—'}</td>
-                  <td>{item.details || '—'}</td>
+                  <td>{item.description || 'Labour Charges'}</td>
+                  <td>{item.hsnSac || '998898'}</td>
+                  <td>{item.details || 'Refer Annexure'}</td>
                   <td className={styles.numericCell}>{formatCurrency(item.amount)}</td>
                 </tr>
               ))}
@@ -213,7 +213,7 @@ export default function ViewRecordPage({
           </table>
         </div>
 
-        {/* Tax Calculations & Amount in Words (8% Total GST) */}
+        {/* Tax Calculations & Amount in Words (18% Total GST = 9% CGST + 9% SGST) */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 20, marginTop: 24, padding: 16, backgroundColor: 'var(--bg-secondary)', borderRadius: 8, border: '1px solid var(--border-subtle)' }}>
           <div>
             <div style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 4 }}>Amount in Words</div>
@@ -226,14 +226,14 @@ export default function ViewRecordPage({
               <strong>{formatCurrency(totalTaxable)}</strong>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: 'var(--text-secondary)' }}>
-              <span>CGST @ 4%:</span>
+              <span>Add CGST @ 9%:</span>
               <strong>{formatCurrency(cgst)}</strong>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: 'var(--text-secondary)' }}>
-              <span>SGST @ 4%:</span>
+              <span>Add SGST @ 9%:</span>
               <strong>{formatCurrency(sgst)}</strong>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 16, fontWeight: 700, color: 'var(--accent-green)', borderTop: '1px solid var(--border-subtle)', paddingTop: 8 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 16, fontWeight: 700, color: '#1e40af', borderTop: '1px solid var(--border-subtle)', paddingTop: 8 }}>
               <span>Grand Total:</span>
               <strong>{formatCurrency(grandTotal)}</strong>
             </div>

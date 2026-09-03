@@ -20,16 +20,16 @@ export function Navigation() {
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        {/* Brand with Logo */}
+        {/* Brand with New W Logo */}
         <Link href="/" className={styles.brand}>
           <img
-            src="/logo.jpg"
+            src="/logo.png"
             alt="Western Industries Logo"
             className={styles.logoImage}
           />
           <div className={styles.brandText}>
-            <span className={styles.brandTitle}>WESTERN INDUSTRIES</span>
-            <span className={styles.brandSubtitle}>STOCK STATEMENT SYSTEM</span>
+            <span className={styles.brandTitle} style={{ color: '#1e40af', fontWeight: 800 }}>WESTERN INDUSTRIES</span>
+            <span className={styles.brandSubtitle}>DIGITAL TAX INVOICE SYSTEM</span>
           </div>
         </Link>
 
@@ -61,7 +61,7 @@ export function Navigation() {
             </span>
           </div>
           <div className={styles.systemStatus}>
-            <span className={styles.statusDot} />
+            <span className={styles.statusDot} style={{ backgroundColor: '#1e40af' }} />
             <span className={styles.statusText}>System Live</span>
           </div>
         </div>

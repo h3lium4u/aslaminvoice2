@@ -9,18 +9,18 @@
   --bg-input: #ffffff;
   
   --border-subtle: #cbd5e1;
-  --border-focus: #800000;
+  --border-focus: #1e40af;
 
   --text-primary: #0f172a;
   --text-secondary: #334155;
   --text-muted: #64748b;
   --text-inverse: #ffffff;
 
-  /* Western Industries Authentic Maroon Accent (#800000 / #8B0000) */
-  --accent-green: #800000;
-  --accent-green-hover: #660000;
-  --accent-green-bg: rgba(128, 0, 0, 0.05);
-  --accent-green-border: rgba(128, 0, 0, 0.25);
+  /* Western Industries Royal Blue Accent Matching Logo */
+  --accent-green: #1e40af;
+  --accent-green-hover: #1d4ed8;
+  --accent-green-bg: rgba(30, 64, 175, 0.06);
+  --accent-green-border: rgba(30, 64, 175, 0.25);
 
   --danger-red: #dc2626;
   --danger-red-hover: #b91c1c;
@@ -90,7 +90,6 @@ input, select, textarea {
   color-scheme: light;
 }
 
-/* Force HTML5 date picker calendar icon to be dark/normal */
 input[type="date"],
 input[type="date"].input {
   color-scheme: light;
